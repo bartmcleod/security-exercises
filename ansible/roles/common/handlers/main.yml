@@ -1,0 +1,4 @@
+---
+  - name: update locate database
+    shell: updatedb
+

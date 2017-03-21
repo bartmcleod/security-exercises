@@ -1,0 +1,7 @@
+---
+  - name: install mysql server 5.5
+    apt: pkg=mysql-server state=latest update_cache=no
+
+  - name: create users table
+    shell: "mysql -uroot < /vagrant/ansible/roles/mysql/db/db.sql"
+

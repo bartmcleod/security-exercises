@@ -1,0 +1,65 @@
+---
+  - name: add repository for php
+    apt_repository: repo='ppa:ondrej/php' state=present
+
+  - name: install php
+    apt: pkg=php7.1 state=latest update_cache=no
+
+  - name: install php7.1-mysql
+    apt: pkg=php7.1-mysql state=latest update_cache=no
+
+  - name: install php7.1-dev
+    apt: pkg=php7.1-dev state=latest update_cache=no
+
+  - name: install php-pear
+    apt: pkg=php-pear state=latest update_cache=no
+
+  - name: install php7.1-xdebug
+    apt: pkg=php7.1-xdebug state=latest update_cache=no
+
+  - name: install php7.1-intl
+    apt: pkg=php7.1-intl state=latest update_cache=no
+
+  - name: install php7.1-mbstring
+    apt: pkg=php7.1-mbstring state=latest update_cache=no
+
+  - name: install php7.1-curl
+    apt: pkg=php7.1-curl state=latest update_cache=no
+
+  - name: install php7.1-mcrypt
+    apt: pkg=php7.1-mcrypt state=latest update_cache=no
+
+  - name: install php7.1-gd
+    apt: pkg=php7.1-gd state=latest update_cache=no
+
+  - name: check for installation of composer
+    register: composer
+    stat: path="/usr/local/bin/composer.phar"
+    changed_when: composer.stat.exists == False
+
+  - name: get composer
+    remote_user: vagrant
+    shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+    when: composer.stat.exists == False
+
+  - name: symlink composer
+    remote_user: vagrant
+    file: src=/usr/local/bin/composer.phar dest=/usr/local/bin/composer state=link
+
+  - name: check phpunit installation
+    register: phpunit_version
+    shell: phpunit --version
+    changed_when: phpunit_version.stdout != "PHPUnit 6.0.8 by Sebastian Bergmann and contributors."
+    ignore_errors: true
+
+  - name: install phpunit
+    remote_user: vagrant
+    shell: cd /usr/local && composer require "phpunit/phpunit"
+    when: phpunit_version.stdout != "PHPUnit 6.0.8 by Sebastian Bergmann and contributors."
+
+  - name: symlink phpunit
+    file: src=/usr/local/vendor/bin/phpunit dest=/usr/local/bin/phpunit state=link owner=vagrant group=root
+
+  - name: copy php.ini
+    copy: src=templates/php.ini dest=/etc/php/7.1/apache2/php.ini
+    notify: restart Apache

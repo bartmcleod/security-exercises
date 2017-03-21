@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSRF exercise</title>
+</head>
+<body>
+<h1>CSRF attack</h1>
+<em>Cross Site Request Forgery</em>
+<p>This is a form of attack were the attacker benefits from a session already established by the user.</p>
+<p>The images below appear to be broken, but in reality, they aren't really images. They contain links
+    to sites where a user <em>could be</em> logged in - and trusted. If that user loads this page, bad things
+    migth happen.</p>
+<p>The first two "images" will try to delete user #2 from a hypothetic database on either localhost:8000 or security.dev
+    (what applies to you depends on how you run the exercises).</p>
+<img src="http://security.dev/csrf/delete-user.php?userId=2">
+<img src="http://localhost:8000/csrf/delete-user.php?userId=2">
+</body>
+</html>

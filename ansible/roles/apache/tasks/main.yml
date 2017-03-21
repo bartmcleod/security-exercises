@@ -1,0 +1,12 @@
+---
+  - name: install apache
+    apt: pkg=apache2 state=latest update_cache=no
+
+  - name: copy hosts file
+    copy: remote_src=False src=/etc/hosts dest=/etc/hosts backup=yes
+
+  - name: enable mod rewrite
+    shell: a2enmod rewrite
+    register: result
+    changed_when: result.stdout != "Module rewrite already enabled"
+    notify: restart Apache

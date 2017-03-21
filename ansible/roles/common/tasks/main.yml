@@ -1,0 +1,19 @@
+---
+  - name: install python properties to be able to use ppa
+    apt: pkg=python-software-properties state=latest update_cache=no
+
+  - name: install git
+    apt: pkg=git state=latest update_cache=no
+
+  - name: install locate
+    apt: pkg=locate state=present update_cache=no
+    notify: update locate database
+
+  - name: install vim
+    apt: pkg=vim state=present update_cache=no
+
+  - name: install curl
+    apt: pkg=curl state=present update_cache=no
+
+  - name: install postfix (for use of sendmail)
+    apt: pkg=postfix state=present update_cache=no

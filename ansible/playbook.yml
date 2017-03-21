@@ -1,0 +1,28 @@
+---
+- hosts: default
+  vars:
+    http_port: 80
+    max_clients: 200
+    ssh_port: 22
+  remote_user: vagrant
+  become_user: root
+  become: yes
+
+  pre_tasks:
+  - name: check guest additions
+    shell: "ls /opt"
+    register: guest_additions
+
+  - name: copy guest additions iso file
+    copy: src="vbox/VBoxGuestAdditions.iso" dest="/root/VBoxGuestAdditions.iso"
+
+  roles:
+  - role: common
+  - role: ansible-role-virtualbox-guest
+    vars:
+      # vboxmanage --version (to find the version)
+      virtualbox_version: 5.0.32r112930
+    when: guest_additions.stdout != "VBoxGuestAdditions-5.0.32"
+  - role: apache
+  - role: mysql
+  - role: php
