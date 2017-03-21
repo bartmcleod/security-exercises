@@ -4,3 +4,4 @@
 Vagrantfile
 playbook.retry
 ansible/roles/ansible-role-virtualbox-guest/
+ansible/vbox/VBoxGuestAdditions.iso
