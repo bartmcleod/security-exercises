@@ -3,4 +3,4 @@
 .vagrant/
 Vagrantfile
 playbook.retry
-roles/ansible-role-virtualbox-guest/
+ansible/roles/ansible-role-virtualbox-guest/
