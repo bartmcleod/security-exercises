@@ -9,9 +9,11 @@ session_start();
 
 require_once './db.php';
 
-$username = $_POST[ 'username' ];
+$loginFailed = false;
 
 if ( isset( $_POST[ 'username' ] ) ) {
+    $username = $_POST[ 'username' ];
+
 	$password = $_POST[ 'password' ];
 
 	$query = "SELECT `userId` FROM `users` WHERE `username` = '$username' AND `password` = '$password' LIMIT 1";
