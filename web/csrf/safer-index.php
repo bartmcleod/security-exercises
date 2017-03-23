@@ -5,11 +5,15 @@
  *
  */
 session_start();
+session_regenerate_id();
 
 if ( ! isset($_SESSION[ 'userId' ])) {
 	header('Location: /login.php');
 	exit();
 }
+
+$token = uniqid();
+$_SESSION['csrf-token'] = $token;
 
 ?>
 <h1>Open for CSRF!</h1>
@@ -31,7 +35,7 @@ if ( ! isset($_SESSION[ 'userId' ])) {
 		echo '<tr>';
 		echo '<td>' . (int) $user->userId . '</td>';
 		echo '<td>' . htmlentities( strip_tags( $user->username ) ) . '</td>';
-		echo '<td><a href="/csrf/unsafe-delete-user.php?userId=' . (int) $user->userId. '">Delete</a></td>';
+		echo '<td><a href="/csrf/delete-user.php?userId=' . (int) $user->userId . '&csrf-token=' . urlencode($token) . '">Delete</a></td>';
 		echo '</tr>';
 	}
 ?>

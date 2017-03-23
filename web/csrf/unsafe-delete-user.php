@@ -5,16 +5,10 @@
  * Open http://spaceweb.nl/security-exercises/csrf.html
  */
 session_start();
-session_regenerate_id();
 
 if ( ! isset( $_SESSION[ 'userId' ] ) ) {
 	header( 'Location: /login.php' );
 	exit();
-}
-
-if ( ! isset($_GET['csrf-token']) || $_SESSION['csrf-token'] !== $_GET['csrf-token']) {
-    header('HTTP/1.0 400 Bad request');
-    exit('CSRF token invalid');
 }
 
 require_once __DIR__ . '/../db.php';
